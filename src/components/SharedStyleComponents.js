@@ -15,6 +15,7 @@ export const StyledArea = styled.div`
 export const StyledRowFlexContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: end;
   gap: 3%;
   width: 90%;
 `;

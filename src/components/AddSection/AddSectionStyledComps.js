@@ -15,3 +15,10 @@ export const StyledInput = styled.input`
   font-size: 1.05rem;
   margin: 0px 0px 8px 0px;
 `;
+
+export const SaveButton = styled.button`
+  width: 10%;
+  height: 75%;
+  font-size: 1.05rem;
+  margin: 0px 0px 8px 0px;
+`;
