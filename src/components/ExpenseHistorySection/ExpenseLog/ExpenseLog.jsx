@@ -1,6 +1,6 @@
-import {StyledRowFlexContainer, StyledArea} from "../SharedStyleComponents";
-import {ExpenseLogItem, LogDate, LogDescription, LogMoney} from "./ExpenseLogSectionStyledComps";
-const ExpenseLogSection = () => {
+import {StyledRowFlexContainer, StyledArea} from "../../SharedStyleComponents";
+import {ExpenseLogItem, LogDate, LogDescription, LogMoney} from "./ExpenseLogStyledComps";
+const ExpenseLog = () => {
   return (
     <StyledArea>
       <ExpenseLogItem>
@@ -14,4 +14,4 @@ const ExpenseLogSection = () => {
   );
 };
 
-export default ExpenseLogSection;
+export default ExpenseLog;
