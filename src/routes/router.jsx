@@ -1,5 +1,6 @@
 import {createBrowserRouter} from "react-router-dom";
 import MainPage from "../pages/MainPage";
+import ExpenseEditPage from "../pages/ExpenseEditPage";
 
 const router = createBrowserRouter([
   {
@@ -8,7 +9,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/expenseEdit/:id",
-    element: <></>,
+    element: <ExpenseEditPage></ExpenseEditPage>,
   },
 ]);
 
