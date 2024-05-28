@@ -38,12 +38,12 @@ const ExpenseDiagram = ({selectedMonth, currentLocalStorage}) => {
       });
 
       if (targetIndex === -1) {
-        const tmp = {
+        const tmpObj = {
           category: ledgerItem.category,
           totalExpense: parseInt(ledgerItem.money),
           totalExpenseRatio: parseInt(ledgerItem.expenseRatio),
         };
-        SelectedMonthLedgerGroupedByCategory.push(tmp);
+        SelectedMonthLedgerGroupedByCategory.push(tmpObj);
       } else {
         SelectedMonthLedgerGroupedByCategory[targetIndex].totalExpense += parseInt(ledgerItem.money);
         SelectedMonthLedgerGroupedByCategory[targetIndex].totalExpenseRatio += parseInt(ledgerItem.expenseRatio);
@@ -51,36 +51,50 @@ const ExpenseDiagram = ({selectedMonth, currentLocalStorage}) => {
     }
   });
 
-  console.log(SelectedMonthLedgerGroupedByCategory);
+  SelectedMonthLedgerGroupedByCategory.sort((a, b) => {
+    return b.totalExpenseRatio - a.totalExpenseRatio;
+  });
 
-  let diagramItemCounter = 0;
+  // console.log(SelectedMonthLedgerGroupedByCategory);
+  const DIAGRAM_LIMITER = 4;
+
+  const overflowAmount = SelectedMonthLedgerGroupedByCategory.length - DIAGRAM_LIMITER;
+
+  if (overflowAmount > 0) {
+    const extraLedger = {category: "기타", totalExpense: 0, totalExpenseRatio: 0};
+    for (let i = 0; i < overflowAmount; i++) {
+      const tmpObj = SelectedMonthLedgerGroupedByCategory.pop();
+      extraLedger.totalExpense += tmpObj.totalExpense;
+      extraLedger.totalExpenseRatio += tmpObj.totalExpenseRatio;
+    }
+    SelectedMonthLedgerGroupedByCategory.push(extraLedger);
+  }
+
+  // console.log(SelectedMonthLedgerGroupedByCategory);
+
   if (selectedMonth !== 0) {
     return (
       <StyledArea>
         <ExpenseLabel>{selectedMonth}월 총 지출</ExpenseLabel>
         <ExpenseDiagramContainer>
           {SelectedMonthLedgerGroupedByCategory.map((ledgerItem, index) => {
-            if (diagramItemCounter < 5) {
-              return (
-                <ExpenseDiagramSegment
-                  $expenseRatio={ledgerItem.totalExpenseRatio}
-                  key={index}
-                  $index={index}
-                ></ExpenseDiagramSegment>
-              );
-            }
+            return (
+              <ExpenseDiagramSegment
+                $expenseRatio={ledgerItem.totalExpenseRatio}
+                key={index}
+                $index={index}
+              ></ExpenseDiagramSegment>
+            );
           })}
         </ExpenseDiagramContainer>
         <FootnoteContainer>
           {SelectedMonthLedgerGroupedByCategory.map((ledgerItem, index) => {
-            if (diagramItemCounter < 5) {
-              return (
-                <FootnoteItem key={index}>
-                  <FootnoteColorbox $index={index}></FootnoteColorbox>
-                  <p>{`${ledgerItem.category}: ${ledgerItem.totalExpense}원 (${ledgerItem.totalExpenseRatio}%)`}</p>
-                </FootnoteItem>
-              );
-            }
+            return (
+              <FootnoteItem key={index}>
+                <FootnoteColorbox $index={index}></FootnoteColorbox>
+                <p>{`${ledgerItem.category}: ${ledgerItem.totalExpense}원 (${ledgerItem.totalExpenseRatio}%)`}</p>
+              </FootnoteItem>
+            );
           })}
         </FootnoteContainer>
       </StyledArea>

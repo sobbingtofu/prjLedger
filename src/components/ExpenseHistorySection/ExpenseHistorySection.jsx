@@ -10,7 +10,7 @@ const ExpenseHistorySection = ({currentLocalStorage}) => {
     <>
       <MonthSelectSection selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth}></MonthSelectSection>
       <ExpenseDiagram currentLocalStorage={currentLocalStorage} selectedMonth={selectedMonth}></ExpenseDiagram>
-      <ExpenseLog selectedMonth={selectedMonth}></ExpenseLog>
+      <ExpenseLog currentLocalStorage={currentLocalStorage} selectedMonth={selectedMonth}></ExpenseLog>
     </>
   );
 };

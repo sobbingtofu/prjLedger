@@ -54,7 +54,7 @@ const AddSection = ({dataToSave, setDataToSave, currentLocalStorage, setCurrentL
         </StyledAddItem>
         <StyledAddItem>
           <StyledLabel>금액</StyledLabel>
-          <StyledInput id="money" onChange={handleInputs} value={inputMoney} />
+          <StyledInput type="number" id="money" onChange={handleInputs} value={inputMoney} />
         </StyledAddItem>
         <StyledAddItem>
           <StyledLabel>내용</StyledLabel>
