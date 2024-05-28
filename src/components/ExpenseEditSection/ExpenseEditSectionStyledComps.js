@@ -33,6 +33,7 @@ export const EditBtn = styled.button`
     background-color: #60afeb;
     cursor: pointer;
   }
+  font-size: 1rem;
 `;
 
 export const DeleteBtn = styled.button`
@@ -46,6 +47,7 @@ export const DeleteBtn = styled.button`
     cursor: pointer;
     transition: 0.3s;
   }
+  font-size: 1rem;
 `;
 
 export const GoBackBtn = styled(Link)`
@@ -63,4 +65,5 @@ export const GoBackBtn = styled(Link)`
   }
   text-decoration: none;
   color: black;
+  font-size: 1rem;
 `;

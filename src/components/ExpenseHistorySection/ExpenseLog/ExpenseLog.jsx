@@ -14,22 +14,25 @@ const ExpenseLog = ({currentLocalStorage, selectedMonth}) => {
   // SelectedMonthLedger.forEach((a) => {
   //   console.log(a.date.replace(/-/g, ""));
   // });
-
-  return (
-    <StyledArea>
-      {SelectedMonthLedger.map((ledgerItem) => {
-        return (
-          <ExpenseLogItem key={ledgerItem.id} to={`/expenseEdit/${ledgerItem.id}`}>
-            <div>
-              <LogDate>{ledgerItem.date}</LogDate>
-              <LogDescription>{`${ledgerItem.category}:    ${ledgerItem.description}`}</LogDescription>
-            </div>
-            <LogMoney>{`${ledgerItem.money}원`}</LogMoney>
-          </ExpenseLogItem>
-        );
-      })}
-    </StyledArea>
-  );
+  if (SelectedMonthLedger.length === 0) {
+    return <StyledArea>비어있음</StyledArea>;
+  } else {
+    return (
+      <StyledArea>
+        {SelectedMonthLedger.map((ledgerItem) => {
+          return (
+            <ExpenseLogItem key={ledgerItem.id} to={`/expenseEdit/${ledgerItem.id}`}>
+              <div>
+                <LogDate>{ledgerItem.date}</LogDate>
+                <LogDescription>{`${ledgerItem.category}:    ${ledgerItem.description}`}</LogDescription>
+              </div>
+              <LogMoney>{`${ledgerItem.money}원`}</LogMoney>
+            </ExpenseLogItem>
+          );
+        })}
+      </StyledArea>
+    );
+  }
 };
 
 export default ExpenseLog;

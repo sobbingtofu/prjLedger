@@ -54,19 +54,22 @@ const ExpenseEditSection = () => {
 
   const handleBtnClick = (event) => {
     if (event.target.id === "edit") {
-      setDataToSave({
-        ...dataToSave,
-        ...{
-          date: dateInput,
-          category: categoryInput,
-          money: moneyInput,
-          description: descriptionInput,
-          id: currentLedgerItem.id,
-        },
-      });
+      const editConfirmation = confirm("지출 내역을 수정할까요?");
+      if (editConfirmation) {
+        setDataToSave({
+          ...dataToSave,
+          ...{
+            date: dateInput,
+            category: categoryInput,
+            money: moneyInput,
+            description: descriptionInput,
+            id: currentLedgerItem.id,
+          },
+        });
+      }
     } else {
-      const deleteConfirmation = confirm("응애");
-      if (deleteConfirmation === true) {
+      const deleteConfirmation = confirm("지출 내역을 삭제할까요?");
+      if (deleteConfirmation) {
         currentLocalStorage.splice(currentLedgerIndex, 1);
         localStorage.setItem("ledger", JSON.stringify([...currentLocalStorage]));
         navigate("/");
