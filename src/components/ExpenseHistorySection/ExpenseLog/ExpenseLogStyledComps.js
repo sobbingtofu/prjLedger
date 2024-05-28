@@ -1,6 +1,7 @@
+import {Link} from "react-router-dom";
 import styled from "styled-components";
 
-export const ExpenseLogItem = styled.div`
+export const ExpenseLogItem = styled(Link)`
   display: flex;
   width: 90%;
   background-color: #f0f0f0;
@@ -11,6 +12,8 @@ export const ExpenseLogItem = styled.div`
   margin: 10px 0px;
   padding: 10px 0px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  text-decoration: none;
+  color: black;
 `;
 
 export const LogDate = styled.p`

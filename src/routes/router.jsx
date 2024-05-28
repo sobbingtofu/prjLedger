@@ -7,7 +7,7 @@ const router = createBrowserRouter([
     element: <MainPage></MainPage>,
   },
   {
-    path: "/expenses/:id",
+    path: "/expenseEdit/:id",
     element: <></>,
   },
 ]);

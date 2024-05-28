@@ -19,7 +19,7 @@ const ExpenseLog = ({currentLocalStorage, selectedMonth}) => {
     <StyledArea>
       {SelectedMonthLedger.map((ledgerItem) => {
         return (
-          <ExpenseLogItem key={ledgerItem.id}>
+          <ExpenseLogItem key={ledgerItem.id} to={`/expenseEdit/${ledgerItem.id}`}>
             <div>
               <LogDate>{ledgerItem.date}</LogDate>
               <LogDescription>{`${ledgerItem.category}:    ${ledgerItem.description}`}</LogDescription>
