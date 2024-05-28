@@ -9,7 +9,7 @@ const ExpenseLog = ({currentLocalStorage, selectedMonth}) => {
     return parseInt(a.date.replace(/-/g, "")) - parseInt(b.date.replace(/-/g, ""));
   });
 
-  console.log(SelectedMonthLedger);
+  // console.log(SelectedMonthLedger);
 
   // SelectedMonthLedger.forEach((a) => {
   //   console.log(a.date.replace(/-/g, ""));

@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom";
 import styled from "styled-components";
 
 export const StyledEditors = styled.div`
@@ -13,4 +14,53 @@ export const StyledEditInput = styled.input`
   font-size: 1.1rem;
   margin: 0px 0px 10px 0px;
   padding: 1%;
+`;
+
+export const StyledBtnContainer = styled.div`
+  margin: 10px 0px 10px 0px;
+  width: 95%;
+  display: flex;
+  justify-content: start;
+  gap: 1%;
+`;
+
+export const EditBtn = styled.button`
+  padding: 1% 2%;
+  background-color: #7fc5fa;
+  border-width: 0.5pt;
+  border-radius: 5px;
+  &:hover {
+    background-color: #60afeb;
+    cursor: pointer;
+  }
+`;
+
+export const DeleteBtn = styled.button`
+  padding: 1% 2%;
+  background-color: #f29485;
+  border-width: 0.5pt;
+  border-radius: 5px;
+  transition: 0.3s;
+  &:hover {
+    background-color: #e87866;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+`;
+
+export const GoBackBtn = styled(Link)`
+  padding: 1% 2%;
+  background-color: #e3e3e3;
+  border-style: solid;
+  border-width: 0.5pt;
+  border-radius: 5px;
+  border-color: black;
+  transition: 0.3s;
+  &:hover {
+    background-color: #c7c7c7;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  text-decoration: none;
+  color: black;
 `;
