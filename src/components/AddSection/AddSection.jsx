@@ -3,42 +3,27 @@ import {StyledRowFlexContainer, StyledArea} from "../SharedStyleComponents";
 import {StyledAddItem, StyledInput, StyledLabel, SaveButton} from "./AddSectionStyledComps";
 
 import {v4 as uuidv4} from "uuid";
-import {current} from "@reduxjs/toolkit";
+import {useDispatch, useSelector} from "react-redux";
+import {ADD_LEDGER, SET_CURRENT_LEDGER_ITEM} from "../../redux/modules/ledger";
 
-const AddSection = ({dataToSave, setDataToSave, currentLocalStorage, setCurrentLocalStorage}) => {
-  const [inputDate, setInputDate] = useState("");
-  const [inputCategory, setInputCategory] = useState("");
-  const [inputMoney, setInputMoney] = useState("");
-  const [inputDescription, setInputDescription] = useState("");
+const AddSection = () => {
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (dataToSave.id !== "") {
-      localStorage.setItem("ledger", JSON.stringify([...currentLocalStorage, dataToSave]));
-      setCurrentLocalStorage([...currentLocalStorage, dataToSave]);
-    }
-  }, [dataToSave]);
+  const currentLedgerItem = useSelector((state) => {
+    return state.handleLedger.currentLedgerItem;
+  });
+
+  const currentLocalStorage = useSelector((state) => {
+    return state.handleLedger.ledgers;
+  });
 
   const handleInputs = (event) => {
-    if (event.target.id === "date") {
-      setInputDate(event.target.value);
-    } else if (event.target.id === "category") {
-      setInputCategory(event.target.value);
-    } else if (event.target.id === "money") {
-      setInputMoney(event.target.value);
-    } else if (event.target.id === "description") {
-      setInputDescription(event.target.value);
-    }
+    dispatch(SET_CURRENT_LEDGER_ITEM({value: event.target.value, id: event.target.id}));
   };
 
   const handleClickSaveBtn = (event) => {
     const id = uuidv4();
-    setDataToSave({
-      date: inputDate,
-      category: inputCategory,
-      money: inputMoney,
-      description: inputDescription,
-      id: id,
-    });
+    dispatch(ADD_LEDGER({id: id}));
   };
 
   return (
@@ -46,19 +31,19 @@ const AddSection = ({dataToSave, setDataToSave, currentLocalStorage, setCurrentL
       <StyledRowFlexContainer>
         <StyledAddItem>
           <StyledLabel>날짜</StyledLabel>
-          <StyledInput type="date" id="date" onChange={handleInputs} value={inputDate} />
+          <StyledInput type="date" id="date" onChange={handleInputs} />
         </StyledAddItem>
         <StyledAddItem>
           <StyledLabel>항목</StyledLabel>
-          <StyledInput id="category" onChange={handleInputs} value={inputCategory} />
+          <StyledInput id="category" onChange={handleInputs} />
         </StyledAddItem>
         <StyledAddItem>
           <StyledLabel>금액</StyledLabel>
-          <StyledInput type="number" id="money" onChange={handleInputs} value={inputMoney} />
+          <StyledInput type="number" id="money" onChange={handleInputs} />
         </StyledAddItem>
         <StyledAddItem>
           <StyledLabel>내용</StyledLabel>
-          <StyledInput id="description" onChange={handleInputs} value={inputDescription} />
+          <StyledInput id="description" onChange={handleInputs} />
         </StyledAddItem>
         <SaveButton onClick={handleClickSaveBtn}>저장</SaveButton>
       </StyledRowFlexContainer>

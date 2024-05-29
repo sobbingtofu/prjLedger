@@ -1,7 +1,19 @@
+import {useSelector} from "react-redux";
 import {StyledRowFlexContainer, StyledArea} from "../../SharedStyleComponents";
 import {ExpenseLogItem, LogDate, LogDescription, LogMoney} from "./ExpenseLogStyledComps";
-const ExpenseLog = ({currentLocalStorage, selectedMonth}) => {
-  const SelectedMonthLedger = currentLocalStorage.filter((ledgerItem) => {
+
+const ExpenseLog = () => {
+  // {currentLocalStorage, selectedMonth}
+
+  const selectedMonth = useSelector((state) => {
+    return state.handleLedger.selectedMonth;
+  });
+
+  const currentLedgers = useSelector((state) => {
+    return state.handleLedger.ledgers;
+  });
+
+  const SelectedMonthLedger = currentLedgers.filter((ledgerItem) => {
     return parseInt(ledgerItem.date.slice(5, 7)) == parseInt(selectedMonth);
   });
 

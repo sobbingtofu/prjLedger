@@ -4,13 +4,11 @@ import ExpenseLog from "./ExpenseLog/ExpenseLog";
 import {useState} from "react";
 
 const ExpenseHistorySection = ({currentLocalStorage}) => {
-  const [selectedMonth, setSelectedMonth] = useState(0);
-
   return (
     <>
-      <MonthSelectSection selectedMonth={selectedMonth} setSelectedMonth={setSelectedMonth}></MonthSelectSection>
-      <ExpenseDiagram currentLocalStorage={currentLocalStorage} selectedMonth={selectedMonth}></ExpenseDiagram>
-      <ExpenseLog currentLocalStorage={currentLocalStorage} selectedMonth={selectedMonth}></ExpenseLog>
+      <MonthSelectSection></MonthSelectSection>
+      <ExpenseDiagram></ExpenseDiagram>
+      <ExpenseLog></ExpenseLog>
     </>
   );
 };
