@@ -13,6 +13,12 @@ const ExpenseLog = () => {
     return state.handleLedger.ledgers;
   });
 
+  console.log(currentLedgers);
+
+  currentLedgers.forEach((ledgerItem) => {
+    console.log(ledgerItem);
+  });
+
   const SelectedMonthLedger = currentLedgers.filter((ledgerItem) => {
     return parseInt(ledgerItem.date.slice(5, 7)) == parseInt(selectedMonth);
   });

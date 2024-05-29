@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {StyledArea} from "../SharedStyleComponents";
 import {
   StyledEditInput,
@@ -10,68 +10,53 @@ import {
   StyledBtnContainer,
 } from "./ExpenseEditSectionStyledComps";
 import {useNavigate, useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {APPLY_EDITED_LEDGER, DELETE_LEDGER, SET_CURRENT_LEDGER_ITEM} from "../../redux/modules/ledger";
 
 const ExpenseEditSection = () => {
-  const currentLocalStorage = JSON.parse(localStorage.getItem("ledger")) || [];
+  const currentLedgers = useSelector((state) => {
+    return state.handleLedger.ledgers;
+  });
+
+  const dispatch = useDispatch();
+
   const params = useParams().id;
 
-  const currentLedgerItem = currentLocalStorage.find((ledgerItem) => {
+  const currentLedgerItem = currentLedgers.find((ledgerItem) => {
     return ledgerItem.id === params;
   });
-  const currentLedgerIndex = currentLocalStorage.findIndex((ledgerItem) => {
-    return ledgerItem.id === params;
-  });
-
-  const [dateInput, setDateInput] = useState(currentLedgerItem.date);
-  const [categoryInput, setCateogryInput] = useState(currentLedgerItem.category);
-  const [moneyInput, setMoneyInput] = useState(currentLedgerItem.money);
-  const [descriptionInput, setDescriptionInput] = useState(currentLedgerItem.description);
-
-  const [dataToSave, setDataToSave] = useState({});
 
   const navigate = useNavigate();
 
-  const handleInputChange = (event) => {
-    if (event.target.id === "date-edit") {
-      setDateInput(event.target.value);
-    } else if (event.target.id === "category-edit") {
-      setCateogryInput(event.target.value);
-    } else if (event.target.id === "money-edit") {
-      setMoneyInput(event.target.value);
-    } else {
-      setDescriptionInput(event.target.value);
-    }
-  };
+  const dateInputRef = useRef(null);
+  const categoryInputRef = useRef(null);
+  const moneyInputRef = useRef(null);
+  const descriptionInputRef = useRef(null);
 
-  useEffect(() => {
-    if (dataToSave.id) {
-      // console.log(currentLedgerItem);
-      currentLocalStorage.splice(currentLedgerIndex, 1, dataToSave);
-      console.log(currentLocalStorage);
-      localStorage.setItem("ledger", JSON.stringify([...currentLocalStorage]));
-    }
-  }, [dataToSave]);
+  const handleInputChange = (event) => {
+    dispatch(SET_CURRENT_LEDGER_ITEM({value: event.target.value, id: event.target.id}));
+  };
 
   const handleBtnClick = (event) => {
     if (event.target.id === "edit") {
       const editConfirmation = confirm("지출 내역을 수정할까요?");
       if (editConfirmation) {
-        setDataToSave({
-          ...dataToSave,
-          ...{
-            date: dateInput,
-            category: categoryInput,
-            money: moneyInput,
-            description: descriptionInput,
-            id: currentLedgerItem.id,
-          },
-        });
+        dispatch(
+          APPLY_EDITED_LEDGER({
+            date: dateInputRef.current.value,
+            category: categoryInputRef.current.value,
+            money: moneyInputRef.current.value,
+            description: descriptionInputRef.current.value,
+            id: params,
+          })
+        );
+        alert("수정되었습니다");
+        navigate("/");
       }
     } else {
       const deleteConfirmation = confirm("지출 내역을 삭제할까요?");
       if (deleteConfirmation) {
-        currentLocalStorage.splice(currentLedgerIndex, 1);
-        localStorage.setItem("ledger", JSON.stringify([...currentLocalStorage]));
+        dispatch(DELETE_LEDGER({id: params}));
         navigate("/");
       }
     }
@@ -84,35 +69,39 @@ const ExpenseEditSection = () => {
         <StyledEditors>
           <StyledEditLabel>날짜</StyledEditLabel>
           <StyledEditInput
-            id="date-edit"
+            id="date"
             type="date"
-            defaultValue={dateInput}
+            defaultValue={currentLedgerItem.date}
             onChange={handleInputChange}
+            ref={dateInputRef}
           ></StyledEditInput>
         </StyledEditors>
         <StyledEditors>
           <StyledEditLabel>항목</StyledEditLabel>
           <StyledEditInput
-            id="category-edit"
-            defaultValue={categoryInput}
+            id="category"
+            defaultValue={currentLedgerItem.category}
             onChange={handleInputChange}
+            ref={categoryInputRef}
           ></StyledEditInput>
         </StyledEditors>
         <StyledEditors>
           <StyledEditLabel>금액</StyledEditLabel>
           <StyledEditInput
-            id="money-edit"
+            id="money"
             type="number"
-            defaultValue={moneyInput}
+            defaultValue={currentLedgerItem.money}
             onChange={handleInputChange}
+            ref={moneyInputRef}
           ></StyledEditInput>
         </StyledEditors>
         <StyledEditors>
           <StyledEditLabel>내용</StyledEditLabel>
           <StyledEditInput
-            id="description-edit"
-            defaultValue={descriptionInput}
+            id="description"
+            defaultValue={currentLedgerItem.description}
             onChange={handleInputChange}
+            ref={descriptionInputRef}
           ></StyledEditInput>
         </StyledEditors>
         <StyledBtnContainer>

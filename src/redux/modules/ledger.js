@@ -1,4 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {act} from "react";
 
 const initialLedgers = JSON.parse(localStorage.getItem("ledger") || "[]");
 
@@ -35,10 +36,37 @@ const handleLedger = createSlice({
     ADD_LEDGER: (state, action) => {
       state.currentLedgerItem.id = action.payload.id;
       state.ledgers = [...state.ledgers, state.currentLedgerItem];
-      localStorage.setItem("ledger", JSON.stringify([state.ledgers]));
+      localStorage.setItem("ledger", JSON.stringify([...state.ledgers]));
+    },
+
+    APPLY_EDITED_LEDGER: (state, action) => {
+      const editedLedger = {
+        date: action.payload.date,
+        category: action.payload.category,
+        money: action.payload.money,
+        description: action.payload.description,
+        id: action.payload.id,
+      };
+
+      const currentLedgerIndex = state.ledgers.findIndex((ledgerItem) => {
+        return ledgerItem.id == action.payload.id;
+      });
+
+      state.ledgers.splice(currentLedgerIndex, 1, editedLedger);
+      localStorage.setItem("ledger", JSON.stringify([...state.ledgers]));
+    },
+
+    DELETE_LEDGER: (state, action) => {
+      const currentLedgerIndex = state.ledgers.findIndex((ledgerItem) => {
+        return ledgerItem.id == action.payload.id;
+      });
+      console.log(currentLedgerIndex);
+      state.ledgers.splice(currentLedgerIndex, 1);
+      localStorage.setItem("ledger", JSON.stringify([...state.ledgers]));
     },
   },
 });
 
-export const {SET_SELECTED_MONTH, SET_CURRENT_LEDGER_ITEM, ADD_LEDGER} = handleLedger.actions;
+export const {SET_SELECTED_MONTH, SET_CURRENT_LEDGER_ITEM, ADD_LEDGER, APPLY_EDITED_LEDGER, DELETE_LEDGER} =
+  handleLedger.actions;
 export default handleLedger.reducer;
