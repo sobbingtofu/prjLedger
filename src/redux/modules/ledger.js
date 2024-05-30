@@ -22,17 +22,6 @@ const handleLedger = createSlice({
     SET_SELECTED_MONTH: (state, action) => {
       state.selectedMonth = action.payload.month;
     },
-    SET_CURRENT_LEDGER_ITEM: (state, action) => {
-      if (action.payload.id === "date") {
-        state.currentLedgerItem.date = action.payload.value;
-      } else if (action.payload.id === "category") {
-        state.currentLedgerItem.category = action.payload.value;
-      } else if (action.payload.id === "money") {
-        state.currentLedgerItem.money = action.payload.value;
-      } else {
-        state.currentLedgerItem.description = action.payload.value;
-      }
-    },
     ADD_LEDGER: (state, action) => {
       state.ledgers = [...state.ledgers, action.payload];
       localStorage.setItem("ledger", JSON.stringify([...state.ledgers]));
@@ -60,6 +49,5 @@ const handleLedger = createSlice({
   },
 });
 
-export const {SET_SELECTED_MONTH, SET_CURRENT_LEDGER_ITEM, ADD_LEDGER, APPLY_EDITED_LEDGER, DELETE_LEDGER} =
-  handleLedger.actions;
+export const {SET_SELECTED_MONTH, ADD_LEDGER, APPLY_EDITED_LEDGER, DELETE_LEDGER} = handleLedger.actions;
 export default handleLedger.reducer;
