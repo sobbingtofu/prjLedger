@@ -1,25 +1,19 @@
-import {useSelector} from "react-redux";
-import {StyledRowFlexContainer, StyledArea} from "../../SharedStyleComponents";
+import {StyledArea} from "../../SharedStyleComponents";
 import {ExpenseLogItem, LogDate, LogDescription, LogMoney} from "./ExpenseLogStyledComps";
+import {Context} from "../../../context/context";
+import {useContext} from "react";
 
 const ExpenseLog = () => {
-  // {currentLocalStorage, selectedMonth}
+  const contextData = useContext(Context);
+  const selectedMonth = contextData.selectedMonth;
 
-  const selectedMonth = useSelector((state) => {
-    return state.handleLedger.selectedMonth;
-  });
+  const Ledgers = contextData.ledgers;
 
-  const currentLedgers = useSelector((state) => {
-    return state.handleLedger.ledgers;
-  });
+  // Ledgers.forEach((ledgerItem) => {
+  //   console.log(ledgerItem);
+  // });
 
-  console.log(currentLedgers);
-
-  currentLedgers.forEach((ledgerItem) => {
-    console.log(ledgerItem);
-  });
-
-  const SelectedMonthLedger = currentLedgers.filter((ledgerItem) => {
+  const SelectedMonthLedger = Ledgers.filter((ledgerItem) => {
     return parseInt(ledgerItem.date.slice(5, 7)) == parseInt(selectedMonth);
   });
 

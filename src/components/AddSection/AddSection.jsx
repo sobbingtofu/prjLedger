@@ -1,29 +1,47 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {StyledRowFlexContainer, StyledArea} from "../SharedStyleComponents";
 import {StyledAddItem, StyledInput, StyledLabel, SaveButton} from "./AddSectionStyledComps";
 
 import {v4 as uuidv4} from "uuid";
-import {useDispatch, useSelector} from "react-redux";
-import {ADD_LEDGER, SET_CURRENT_LEDGER_ITEM} from "../../redux/modules/ledger";
+
+import {Context} from "../../context/context";
 
 const AddSection = () => {
-  const dispatch = useDispatch();
-
-  const currentLedgerItem = useSelector((state) => {
-    return state.handleLedger.currentLedgerItem;
-  });
-
-  const currentLocalStorage = useSelector((state) => {
-    return state.handleLedger.ledgers;
-  });
+  const contextData = useContext(Context);
+  const [inputDate, setInputDate] = useState("");
+  const [inputCategory, setInputCategory] = useState("");
+  const [inputMoney, setInputMoney] = useState("");
+  const [inputDescription, setInputDescription] = useState("");
 
   const handleInputs = (event) => {
-    dispatch(SET_CURRENT_LEDGER_ITEM({value: event.target.value, id: event.target.id}));
+    const inputId = event.target.id;
+    if (event.target.id === "date") {
+      setInputDate(event.target.value);
+    } else if (event.target.id === "category") {
+      setInputCategory(event.target.value);
+    } else if (event.target.id === "money") {
+      setInputMoney(event.target.value);
+    } else if (event.target.id === "description") {
+      setInputDescription(event.target.value);
+    }
   };
+
+  useEffect(() => {
+    if (contextData.currentLedgerItem.id !== "") {
+      localStorage.setItem("ledger", JSON.stringify([...contextData.ledgers, contextData.currentLedgerItem]));
+      contextData.setLedgers([...contextData.ledgers, contextData.currentLedgerItem]);
+    }
+  }, [contextData.currentLedgerItem]);
 
   const handleClickSaveBtn = (event) => {
     const id = uuidv4();
-    dispatch(ADD_LEDGER({id: id}));
+    contextData.setCurrentLedgerItem({
+      date: inputDate,
+      category: inputCategory,
+      money: inputMoney,
+      description: inputDescription,
+      id: id,
+    });
   };
 
   return (

@@ -1,4 +1,3 @@
-import {useSelector} from "react-redux";
 import {StyledArea} from "../../SharedStyleComponents";
 import {
   ExpenseLabel,
@@ -8,17 +7,17 @@ import {
   FootnoteItem,
   FootnoteColorbox,
 } from "./ExpenseDiagramStyledComps";
+import {Context} from "../../../context/context";
+import {useContext} from "react";
 
 const ExpenseDiagram = () => {
-  const selectedMonth = useSelector((state) => {
-    return state.handleLedger.selectedMonth;
-  });
+  const contextData = useContext(Context);
+  const selectedMonth = contextData.selectedMonth;
+  // console.log(selectedMonth);
 
-  const currentLedgers = useSelector((state) => {
-    return state.handleLedger.ledgers;
-  });
+  const Ledgers = contextData.ledgers;
 
-  const tmpSelectedMonthLedger = currentLedgers.filter((ledgerItem) => {
+  const tmpSelectedMonthLedger = Ledgers.filter((ledgerItem) => {
     return parseInt(ledgerItem.date.slice(5, 7)) == parseInt(selectedMonth);
   });
 

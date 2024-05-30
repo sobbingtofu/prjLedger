@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useContext, useRef} from "react";
 import {StyledArea} from "../SharedStyleComponents";
 import {
   StyledEditInput,
@@ -10,23 +10,21 @@ import {
   StyledBtnContainer,
 } from "./ExpenseEditSectionStyledComps";
 import {useNavigate, useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {APPLY_EDITED_LEDGER, DELETE_LEDGER, SET_CURRENT_LEDGER_ITEM} from "../../redux/modules/ledger";
+import {Context} from "../../context/context";
 
 const ExpenseEditSection = () => {
-  const currentLedgers = useSelector((state) => {
-    return state.handleLedger.ledgers;
-  });
+  const contextData = useContext(Context);
 
-  const dispatch = useDispatch();
+  const Ledgers = contextData.ledgers;
 
   const params = useParams().id;
 
-  const currentLedgerItem = currentLedgers.find((ledgerItem) => {
+  const navigate = useNavigate();
+
+  const currentLedgerItem = Ledgers.find((ledgerItem) => {
     return ledgerItem.id === params;
   });
-
-  const navigate = useNavigate();
 
   const dateInputRef = useRef(null);
   const categoryInputRef = useRef(null);
@@ -34,29 +32,49 @@ const ExpenseEditSection = () => {
   const descriptionInputRef = useRef(null);
 
   const handleInputChange = (event) => {
-    dispatch(SET_CURRENT_LEDGER_ITEM({value: event.target.value, id: event.target.id}));
+    if (event.target.id === "date") {
+      contextData.currentLedgerItem.date = event.target.value;
+    } else if (event.target.id === "category") {
+      contextData.currentLedgerItem.category = event.target.value;
+    } else if (event.target.id === "money") {
+      contextData.currentLedgerItem.money = event.target.value;
+    } else {
+      contextData.currentLedgerItem.description = event.target.value;
+    }
   };
 
   const handleBtnClick = (event) => {
     if (event.target.id === "edit") {
       const editConfirmation = confirm("지출 내역을 수정할까요?");
       if (editConfirmation) {
-        dispatch(
-          APPLY_EDITED_LEDGER({
-            date: dateInputRef.current.value,
-            category: categoryInputRef.current.value,
-            money: moneyInputRef.current.value,
-            description: descriptionInputRef.current.value,
-            id: params,
-          })
-        );
+        const editedLedger = {
+          date: dateInputRef.current.value,
+          category: categoryInputRef.current.value,
+          money: moneyInputRef.current.value,
+          description: descriptionInputRef.current.value,
+          id: params,
+        };
+
+        const currentLedgerIndex = contextData.ledgers.findIndex((ledgerItem) => {
+          return ledgerItem.id == params;
+        });
+
+        contextData.ledgers.splice(currentLedgerIndex, 1, editedLedger);
+        localStorage.setItem("ledger", JSON.stringify([...contextData.ledgers]));
+
         alert("수정되었습니다");
         navigate("/");
       }
     } else {
       const deleteConfirmation = confirm("지출 내역을 삭제할까요?");
       if (deleteConfirmation) {
-        dispatch(DELETE_LEDGER({id: params}));
+        const currentLedgerIndex = contextData.ledgers.findIndex((ledgerItem) => {
+          return ledgerItem.id == params;
+        });
+
+        contextData.ledgers.splice(currentLedgerIndex, 1);
+        localStorage.setItem("ledger", JSON.stringify([...contextData.ledgers]));
+
         navigate("/");
       }
     }
