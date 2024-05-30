@@ -1,4 +1,4 @@
-import React, {useContext, useRef} from "react";
+import React, {useContext, useRef, useState} from "react";
 import {StyledArea} from "../SharedStyleComponents";
 import {
   StyledEditInput,
@@ -10,7 +10,6 @@ import {
   StyledBtnContainer,
 } from "./ExpenseEditSectionStyledComps";
 import {useNavigate, useParams} from "react-router-dom";
-import {APPLY_EDITED_LEDGER, DELETE_LEDGER, SET_CURRENT_LEDGER_ITEM} from "../../redux/modules/ledger";
 import {Context} from "../../context/context";
 
 const ExpenseEditSection = () => {
@@ -31,15 +30,20 @@ const ExpenseEditSection = () => {
   const moneyInputRef = useRef(null);
   const descriptionInputRef = useRef(null);
 
+  const [dateInput, setDateInput] = useState(currentLedgerItem.date);
+  const [categoryInput, setCateogryInput] = useState(currentLedgerItem.category);
+  const [moneyInput, setMoneyInput] = useState(currentLedgerItem.money);
+  const [descriptionInput, setDescriptionInput] = useState(currentLedgerItem.description);
+
   const handleInputChange = (event) => {
-    if (event.target.id === "date") {
-      contextData.currentLedgerItem.date = event.target.value;
-    } else if (event.target.id === "category") {
-      contextData.currentLedgerItem.category = event.target.value;
-    } else if (event.target.id === "money") {
-      contextData.currentLedgerItem.money = event.target.value;
+    if (event.target.id === "date-edit") {
+      setDateInput(event.target.value);
+    } else if (event.target.id === "category-edit") {
+      setCateogryInput(event.target.value);
+    } else if (event.target.id === "money-edit") {
+      setMoneyInput(event.target.value);
     } else {
-      contextData.currentLedgerItem.description = event.target.value;
+      setDescriptionInput(event.target.value);
     }
   };
 

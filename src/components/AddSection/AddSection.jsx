@@ -26,22 +26,17 @@ const AddSection = () => {
     }
   };
 
-  useEffect(() => {
-    if (contextData.currentLedgerItem.id !== "") {
-      localStorage.setItem("ledger", JSON.stringify([...contextData.ledgers, contextData.currentLedgerItem]));
-      contextData.setLedgers([...contextData.ledgers, contextData.currentLedgerItem]);
-    }
-  }, [contextData.currentLedgerItem]);
-
   const handleClickSaveBtn = (event) => {
     const id = uuidv4();
-    contextData.setCurrentLedgerItem({
+    const newLedgerItem = {
       date: inputDate,
       category: inputCategory,
       money: inputMoney,
       description: inputDescription,
       id: id,
-    });
+    };
+    localStorage.setItem("ledger", JSON.stringify([...contextData.ledgers, newLedgerItem]));
+    contextData.setLedgers([...contextData.ledgers, newLedgerItem]);
   };
 
   return (
