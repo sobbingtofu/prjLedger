@@ -34,19 +34,12 @@ const handleLedger = createSlice({
       }
     },
     ADD_LEDGER: (state, action) => {
-      state.currentLedgerItem.id = action.payload.id;
-      state.ledgers = [...state.ledgers, state.currentLedgerItem];
+      state.ledgers = [...state.ledgers, action.payload];
       localStorage.setItem("ledger", JSON.stringify([...state.ledgers]));
     },
 
     APPLY_EDITED_LEDGER: (state, action) => {
-      const editedLedger = {
-        date: action.payload.date,
-        category: action.payload.category,
-        money: action.payload.money,
-        description: action.payload.description,
-        id: action.payload.id,
-      };
+      const editedLedger = action.payload;
 
       const currentLedgerIndex = state.ledgers.findIndex((ledgerItem) => {
         return ledgerItem.id == action.payload.id;

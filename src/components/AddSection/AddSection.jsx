@@ -1,29 +1,29 @@
-import {useEffect, useState} from "react";
 import {StyledRowFlexContainer, StyledArea} from "../SharedStyleComponents";
 import {StyledAddItem, StyledInput, StyledLabel, SaveButton} from "./AddSectionStyledComps";
 
 import {v4 as uuidv4} from "uuid";
-import {useDispatch, useSelector} from "react-redux";
-import {ADD_LEDGER, SET_CURRENT_LEDGER_ITEM} from "../../redux/modules/ledger";
+import {useDispatch} from "react-redux";
+import {ADD_LEDGER} from "../../redux/modules/ledger";
+import {useRef} from "react";
 
 const AddSection = () => {
   const dispatch = useDispatch();
 
-  const currentLedgerItem = useSelector((state) => {
-    return state.handleLedger.currentLedgerItem;
-  });
-
-  const currentLocalStorage = useSelector((state) => {
-    return state.handleLedger.ledgers;
-  });
-
-  const handleInputs = (event) => {
-    dispatch(SET_CURRENT_LEDGER_ITEM({value: event.target.value, id: event.target.id}));
-  };
+  const dateInputRef = useRef(null);
+  const categoryInputRef = useRef(null);
+  const moneyInputRef = useRef(null);
+  const descriptionInputRef = useRef(null);
 
   const handleClickSaveBtn = (event) => {
     const id = uuidv4();
-    dispatch(ADD_LEDGER({id: id}));
+    const newLedgerItem = {
+      date: dateInputRef.current.value,
+      category: categoryInputRef.current.value,
+      money: moneyInputRef.current.value,
+      description: descriptionInputRef.current.value,
+      id: id,
+    };
+    dispatch(ADD_LEDGER(newLedgerItem));
   };
 
   return (
@@ -31,19 +31,19 @@ const AddSection = () => {
       <StyledRowFlexContainer>
         <StyledAddItem>
           <StyledLabel>날짜</StyledLabel>
-          <StyledInput type="date" id="date" onChange={handleInputs} />
+          <StyledInput type="date" id="date" ref={dateInputRef} />
         </StyledAddItem>
         <StyledAddItem>
           <StyledLabel>항목</StyledLabel>
-          <StyledInput id="category" onChange={handleInputs} />
+          <StyledInput id="category" ref={categoryInputRef} />
         </StyledAddItem>
         <StyledAddItem>
           <StyledLabel>금액</StyledLabel>
-          <StyledInput type="number" id="money" onChange={handleInputs} />
+          <StyledInput type="number" id="money" ref={moneyInputRef} />
         </StyledAddItem>
         <StyledAddItem>
           <StyledLabel>내용</StyledLabel>
-          <StyledInput id="description" onChange={handleInputs} />
+          <StyledInput id="description" ref={descriptionInputRef} />
         </StyledAddItem>
         <SaveButton onClick={handleClickSaveBtn}>저장</SaveButton>
       </StyledRowFlexContainer>

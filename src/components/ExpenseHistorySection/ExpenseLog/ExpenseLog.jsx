@@ -1,22 +1,14 @@
 import {useSelector} from "react-redux";
-import {StyledRowFlexContainer, StyledArea} from "../../SharedStyleComponents";
+import {StyledArea} from "../../SharedStyleComponents";
 import {ExpenseLogItem, LogDate, LogDescription, LogMoney} from "./ExpenseLogStyledComps";
 
 const ExpenseLog = () => {
-  // {currentLocalStorage, selectedMonth}
-
   const selectedMonth = useSelector((state) => {
     return state.handleLedger.selectedMonth;
   });
 
   const currentLedgers = useSelector((state) => {
     return state.handleLedger.ledgers;
-  });
-
-  console.log(currentLedgers);
-
-  currentLedgers.forEach((ledgerItem) => {
-    console.log(ledgerItem);
   });
 
   const SelectedMonthLedger = currentLedgers.filter((ledgerItem) => {
@@ -27,11 +19,6 @@ const ExpenseLog = () => {
     return parseInt(a.date.replace(/-/g, "")) - parseInt(b.date.replace(/-/g, ""));
   });
 
-  // console.log(SelectedMonthLedger);
-
-  // SelectedMonthLedger.forEach((a) => {
-  //   console.log(a.date.replace(/-/g, ""));
-  // });
   if (SelectedMonthLedger.length === 0) {
     return <StyledArea>비어있음</StyledArea>;
   } else {

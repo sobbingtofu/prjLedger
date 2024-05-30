@@ -64,7 +64,6 @@ const ExpenseDiagram = () => {
     return b.totalExpenseRatio - a.totalExpenseRatio;
   });
 
-  // console.log(SelectedMonthLedgerGroupedByCategory);
   const DIAGRAM_LIMITER = 4;
 
   const overflowAmount = SelectedMonthLedgerGroupedByCategory.length - DIAGRAM_LIMITER;
@@ -78,8 +77,6 @@ const ExpenseDiagram = () => {
     }
     SelectedMonthLedgerGroupedByCategory.push(extraLedger);
   }
-
-  // console.log(SelectedMonthLedgerGroupedByCategory);
 
   if (selectedMonth !== 0) {
     return (

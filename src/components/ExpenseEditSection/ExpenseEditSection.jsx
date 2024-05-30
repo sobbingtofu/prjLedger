@@ -11,7 +11,7 @@ import {
 } from "./ExpenseEditSectionStyledComps";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {APPLY_EDITED_LEDGER, DELETE_LEDGER, SET_CURRENT_LEDGER_ITEM} from "../../redux/modules/ledger";
+import {APPLY_EDITED_LEDGER, DELETE_LEDGER} from "../../redux/modules/ledger";
 
 const ExpenseEditSection = () => {
   const currentLedgers = useSelector((state) => {
@@ -32,10 +32,6 @@ const ExpenseEditSection = () => {
   const categoryInputRef = useRef(null);
   const moneyInputRef = useRef(null);
   const descriptionInputRef = useRef(null);
-
-  const handleInputChange = (event) => {
-    dispatch(SET_CURRENT_LEDGER_ITEM({value: event.target.value, id: event.target.id}));
-  };
 
   const handleBtnClick = (event) => {
     if (event.target.id === "edit") {
@@ -72,7 +68,6 @@ const ExpenseEditSection = () => {
             id="date"
             type="date"
             defaultValue={currentLedgerItem.date}
-            onChange={handleInputChange}
             ref={dateInputRef}
           ></StyledEditInput>
         </StyledEditors>
@@ -81,7 +76,6 @@ const ExpenseEditSection = () => {
           <StyledEditInput
             id="category"
             defaultValue={currentLedgerItem.category}
-            onChange={handleInputChange}
             ref={categoryInputRef}
           ></StyledEditInput>
         </StyledEditors>
@@ -91,7 +85,6 @@ const ExpenseEditSection = () => {
             id="money"
             type="number"
             defaultValue={currentLedgerItem.money}
-            onChange={handleInputChange}
             ref={moneyInputRef}
           ></StyledEditInput>
         </StyledEditors>
@@ -100,7 +93,6 @@ const ExpenseEditSection = () => {
           <StyledEditInput
             id="description"
             defaultValue={currentLedgerItem.description}
-            onChange={handleInputChange}
             ref={descriptionInputRef}
           ></StyledEditInput>
         </StyledEditors>
