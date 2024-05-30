@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from "react";
+import React, {useContext, useRef} from "react";
 import {StyledArea} from "../SharedStyleComponents";
 import {
   StyledEditInput,
@@ -29,23 +29,6 @@ const ExpenseEditSection = () => {
   const categoryInputRef = useRef(null);
   const moneyInputRef = useRef(null);
   const descriptionInputRef = useRef(null);
-
-  const [dateInput, setDateInput] = useState(currentLedgerItem.date);
-  const [categoryInput, setCateogryInput] = useState(currentLedgerItem.category);
-  const [moneyInput, setMoneyInput] = useState(currentLedgerItem.money);
-  const [descriptionInput, setDescriptionInput] = useState(currentLedgerItem.description);
-
-  const handleInputChange = (event) => {
-    if (event.target.id === "date-edit") {
-      setDateInput(event.target.value);
-    } else if (event.target.id === "category-edit") {
-      setCateogryInput(event.target.value);
-    } else if (event.target.id === "money-edit") {
-      setMoneyInput(event.target.value);
-    } else {
-      setDescriptionInput(event.target.value);
-    }
-  };
 
   const handleBtnClick = (event) => {
     if (event.target.id === "edit") {
@@ -94,7 +77,6 @@ const ExpenseEditSection = () => {
             id="date"
             type="date"
             defaultValue={currentLedgerItem.date}
-            onChange={handleInputChange}
             ref={dateInputRef}
           ></StyledEditInput>
         </StyledEditors>
@@ -103,7 +85,6 @@ const ExpenseEditSection = () => {
           <StyledEditInput
             id="category"
             defaultValue={currentLedgerItem.category}
-            onChange={handleInputChange}
             ref={categoryInputRef}
           ></StyledEditInput>
         </StyledEditors>
@@ -113,7 +94,6 @@ const ExpenseEditSection = () => {
             id="money"
             type="number"
             defaultValue={currentLedgerItem.money}
-            onChange={handleInputChange}
             ref={moneyInputRef}
           ></StyledEditInput>
         </StyledEditors>
@@ -122,7 +102,6 @@ const ExpenseEditSection = () => {
           <StyledEditInput
             id="description"
             defaultValue={currentLedgerItem.description}
-            onChange={handleInputChange}
             ref={descriptionInputRef}
           ></StyledEditInput>
         </StyledEditors>
